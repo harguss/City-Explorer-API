@@ -37,21 +37,19 @@ app.get('/weatherData', getWeather);
 
 async function getWeather(request, response) {
 // console.log('this is the req inside the getWeather',request.query)
-  const q = request.query.q; // grab the q query string value
-
+  const q = request.query; // grab the q query string value
+    // console.log('q is our request obj?', q.lat);
    try {
      const results = await axios.get(`https://api.openweathermap.org/data/2.5/onecall`, {
        params: {
          appid: process.env.WEATHER_API_KEY,
-         lat:  41.9758872,
-         lon:  -91.6704053,
+         lat:  q.lat,
+         lon:  q.lon,
        },
      });
-    console.log('this is the results from the api' , results);
-    //  let getWeather =
-    //    results.data.map(weather => new Weather(weather));
-
-    //  response.send(weatherArray);
+     let getWeather = results.data.daily.map(weather => new Weather(weather));
+     console.log('this is the getweather', getWeather);
+        //response.send(weatherArray);
    }
    catch (err) {
      console.error('axios error!', err);
@@ -59,10 +57,9 @@ async function getWeather(request, response) {
    }
 
 }
-// create async function to get the weather. 
+ 
 
 
-//add blue code
 
 
 
@@ -71,9 +68,13 @@ async function getWeather(request, response) {
 
 
 //New data gets sent through the class constructor function 
-// class Weather(){
-//   constructor(){}
-// }
+class Weather {
+  constructor(apiObj) {
+    // this.img_url = apiObj.urls.regular;
+    // this.original_image = apiObj.links.self;
+    // this.photographer = apiObj.user.name;
+  }
+}
 
 
 
