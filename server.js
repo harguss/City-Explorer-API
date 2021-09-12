@@ -47,9 +47,9 @@ async function getWeather(request, response) {
          lon:  q.lon,
        },
      });
-     let getWeather = results.data.daily.map(weather => new Weather(weather));
-     console.log('this is the getweather', getWeather);
-        //response.send(weatherArray);
+     let weatherObject = results.data.daily.map(dayWeather => new WeatherForeCast(dayWeather));
+        console.log('this is the getweather object', weatherObject);
+        response.send(weatherObject);
    }
    catch (err) {
      console.error('axios error!', err);
@@ -58,21 +58,20 @@ async function getWeather(request, response) {
 
 }
  
-
-
-
-
-
-
+//Thank you Ian.
+function upToDateTime(objectDt) {
+  let date = new Date(objectDt * 1000);
+  // console.log('this is the new date', date);
+  return date.toISOString().substr(0,10);
+}
 
 
 
 //New data gets sent through the class constructor function 
-class Weather {
-  constructor(apiObj) {
-    // this.img_url = apiObj.urls.regular;
-    // this.original_image = apiObj.links.self;
-    // this.photographer = apiObj.user.name;
+class WeatherForeCast {
+  constructor(weatherObject) {
+    this.date = upToDateTime(weatherObject.dt);
+    this.description = weatherObject.weather[0].description;
   }
 }
 
