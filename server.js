@@ -49,6 +49,7 @@ async function getWeather(request, response) {
      });
      let weatherObject = results.data.daily.map(dayWeather => new WeatherForeCast(dayWeather));
         console.log('this is the getweather object', weatherObject);
+        //does .send send the objects in an array?
         response.send(weatherObject);
    }
    catch (err) {
@@ -62,7 +63,7 @@ async function getWeather(request, response) {
 function upToDateTime(objectDt) {
   let date = new Date(objectDt * 1000);
   // console.log('this is the new date', date);
-  return date.toISOString().substr(0,10);
+  return date.toISOString(0).substr(0);
 }
 
 
